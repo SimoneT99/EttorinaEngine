@@ -134,11 +134,7 @@ public:
      * Hook to bind the input system to some tick rate of other system
      */
 
-    /// @brief allow to check if the system is tick bounded, if true the underlying system will use the tick function
-    ///        to continue it'operations, the behaviour is dependent on the concrete underlying system
-    /// @return true if binded to the tick rate, false otherwise
-    virtual bool is_binded() = 0;
-
-    /// @brief allow to signal a "tick" to the input system
+    /// @brief allow to signal a "tick" to the input system, can be used o signal that a cycle of application has
+    /// passed, for example signaling that a frame has ben generated. It's used to sync the application and the system
     virtual void tick() = 0;
 };

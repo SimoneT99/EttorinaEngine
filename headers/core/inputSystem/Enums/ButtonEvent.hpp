@@ -4,10 +4,9 @@
 namespace Enums{
 
     enum ButtonEvent{
-
         PRESSED_DOWN,
         PRESSED,
-        RELEASED,
+        RELEASED
     };
 
     /**

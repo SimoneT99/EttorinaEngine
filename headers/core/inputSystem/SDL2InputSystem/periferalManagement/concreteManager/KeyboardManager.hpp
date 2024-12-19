@@ -1,23 +1,26 @@
 #include "../headers\core\inputSystem\SDL2InputSystem\periferalManagement\AbstractKeyboardManager.hpp"
-
+#include "../IButtonManager.hpp"
 #include <map>
 
 class KeyboardManager : public AbstractKeyboardManager{
 
-    private:        
-        std::map<KeyButton, ButtonState> keyboard_buttons;
-        std::map<std::pair<KeyButton, ButtonState>, AbstractInputCommand> keyboard_buttons_events;
-        
-        inline ButtonState get_keyboard_button_state(KeyButton button) const;
-    
+    private:
+        std::unique_ptr<IButtonManager<Enums::KeyButton>> keyboard_button_manager;
+
     public:
-        bool key_pressed_down(KeyButton button) const override;
-        bool key_pressed(KeyButton button) const override;
-        bool key_released(KeyButton button) const override;
+    
+        KeyboardManager(std::unique_ptr<IButtonManager<Enums::KeyButton>> manager) :
+            keyboard_button_manager(std::move(manager)) {}
 
-        bool bind_key_event(KeyButton button, ButtonState event, AbstractInputCommand action) override;
-        bool unbind_key_event(KeyButton button, ButtonState event) override;
+        bool key_pressed_down(Enums::KeyButton button) const override;
+        bool key_pressed(Enums::KeyButton button) const override;
+        bool key_released(Enums::KeyButton button) const override;
 
-        void press_button(KeyButton button) override;
-        void release_button(KeyButton button) override;
+        void bind_key_event(Enums::KeyButton button, Enums::ButtonEvent event, std::unique_ptr<AbstractInputCommand> action) override;
+        void unbind_key_event(Enums::KeyButton button, Enums::ButtonEvent event) override;
+
+        void press_button(Enums::KeyButton button) override;
+        void release_button(Enums::KeyButton button) override;
+
+        void tick() override;
 };

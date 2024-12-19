@@ -30,6 +30,9 @@
 *.out
 *.app
 
+#excluded directories
+docs/
+
 #allowed folders
 !assets/*
 !lib/*

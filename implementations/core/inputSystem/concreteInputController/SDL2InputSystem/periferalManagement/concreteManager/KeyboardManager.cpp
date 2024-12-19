@@ -1,26 +1,25 @@
-#include "../headers\core\inputSystem\SDL2InputSystem\periferalManagement\concreteManager\KeyboardManager.hpp"
+#include "..\headers\core\inputSystem\SDL2InputSystem\periferalManagement\concreteManager\KeyboardManager.hpp"
 
-inline ButtonState KeyboardManager::get_keyboard_button_state(KeyButton button) const{
-    auto state = this->keyboard_buttons.find(button);
-    return state != this->keyboard_buttons.end() ? state->second : ButtonState::UNPRESSED;
+bool KeyboardManager::key_pressed_down(Enums::KeyButton button) const{
+    return this->keyboard_button_manager->button_pressed_down(button);
 }
 
-bool KeyboardManager::key_pressed_down(KeyButton button) const{
-    return this->check_button_pressed_down(this->get_keyboard_button_state(button));
+bool KeyboardManager::key_pressed(Enums::KeyButton button) const{
+    return this->keyboard_button_manager->button_pressed(button);
 }
 
-bool KeyboardManager::key_pressed(KeyButton button) const{
-    return this->check_button_pressed(this->get_keyboard_button_state(button));
+bool KeyboardManager::key_released(Enums::KeyButton button) const{
+    return this->keyboard_button_manager->button_pressed(button); 
 }
 
-bool KeyboardManager::key_released(KeyButton button) const{
-    return this->check_button_released(this->get_keyboard_button_state(button)); 
+void KeyboardManager::bind_key_event(Enums::KeyButton button, Enums::ButtonEvent event, std::unique_ptr<AbstractInputCommand> action){
+    this->keyboard_button_manager->bind_button_event(button, event, std::move(action));
 }
 
-bool KeyboardManager::bind_key_event(KeyButton button, ButtonState event, AbstractInputCommand action){
-    this->keyboard_buttons_events.insert({{button, event}, action});
+void KeyboardManager::unbind_key_event(Enums::KeyButton button, Enums::ButtonEvent event){
+    this->keyboard_button_manager->unbind_mouse_event(button, event);
 }
 
-bool KeyboardManager::unbind_key_event(KeyButton button, ButtonState event){
-    this->keyboard_buttons_events.erase({button, event});
+void KeyboardManager::tick(){
+    this->keyboard_button_manager->update();
 }

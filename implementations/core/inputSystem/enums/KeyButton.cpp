@@ -1,5 +1,7 @@
 #include "../headers/core/inputSystem/Enums/KeyButton.hpp"
 
+using namespace Enums;
+
 std::string KeyButtonHelper::keyButtonToString(KeyButton keyButton){
     switch (keyButton) {
         // Lettere

@@ -1,5 +1,7 @@
 #include "../headers/core/inputSystem/Enums/ControllerAxis.hpp"
 
+using namespace Enums;
+
 std::string ControllerAxisHelper::controllerAxisToString(ControllerAxis controllerAxis){
     switch(controllerAxis){
         case ControllerAxis::CONTROLLER_LEFT_VERICAL_AXIS: return "CONTROLLER_LEFT_VERICAL_AXIS";

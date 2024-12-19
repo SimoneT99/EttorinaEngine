@@ -1,4 +1,4 @@
-#include "../headers\core\inputSystem\SDL2InputSystem\eventHandler\concreteHandler\SDL2MouseEventHandler.hpp"
+#include "..\headers\core\inputSystem\SDL2InputSystem\eventHandler\SDL2Handler\concreteHandlers\SDL2MouseEventHandler.hpp"
 
 bool SDL2MouseEventHandler::can_handle(SDL_Event event) const
 {
@@ -27,21 +27,5 @@ void SDL2MouseEventHandler::concrete_handle(SDL_Event event) const
          */
         this->abstractMouseManager->update_mouse_wheel_delta(event.wheel.x, event.wheel.y);
         break;
-    }
-}
-
-/**
- * BAD: SDL seems to not support over 6 buttons
- * BAD: Might be slow...
- */
-
-MouseButton SDL2MouseEventHandler::convertSDLtoMouseButton(Uint8 sdlButton) const{
-    switch (sdlButton) {
-        case SDL_BUTTON_LEFT:   return MouseButton::MOUSE_LEFT;
-        case SDL_BUTTON_MIDDLE: return MouseButton::MOUSE_MIDDLE;
-        case SDL_BUTTON_RIGHT:  return MouseButton::MOUSE_RIGHT;
-        case SDL_BUTTON_X1:     return MouseButton::MOUSE_4;
-        case SDL_BUTTON_X2:     return MouseButton::MOUSE_5;
-        default:                return MouseButton::MOUSE_6;
     }
 }

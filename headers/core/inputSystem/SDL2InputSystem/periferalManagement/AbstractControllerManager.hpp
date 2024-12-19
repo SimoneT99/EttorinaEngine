@@ -1,28 +1,31 @@
-#include "../headers/core/inputSystem/Enums/ControllerButton.hpp"
-#include "../headers/core/inputSystem/Enums/ButtonState.hpp"
-#include "../headers/core/inputSystem/Enums/ControllerAxis.hpp"
+#include "../headers/core/inputSystem/Enums/Enums.hpp"
 #include "../headers/core/inputSystem/AbstractInputCommand.hpp"
-#include "AbstractButtonManager.hpp"
+#include "ITickable.hpp"
+#include <memory>
 #include <map>
 
-class AbstractControllerManager : public AbstractButtonManager{
+class AbstractControllerManager : public ITickable{
 
     public:
-        virtual bool controller_button_pressed_down(ControllerButton button) const = 0;
-        virtual bool controller_button_pressed(ControllerButton button) const = 0;
-        virtual bool controller_button_released(ControllerButton button) const = 0;
+        virtual bool controller_button_pressed_down(Enums::ControllerButton button) const = 0;
+        virtual bool controller_button_pressed(Enums::ControllerButton button) const = 0;
+        virtual bool controller_button_released(Enums::ControllerButton button) const = 0;
     
-        virtual void get_controller_axis(ControllerAxis axis, float& value) const = 0;
+        virtual void get_controller_axis(Enums::ControllerAxis axis, float& value) const = 0;
 
-        virtual bool bind_controller_event(ControllerButton button, ButtonState event, AbstractInputCommand action) = 0;
-        virtual bool unbind_controller_event(ControllerButton button, ButtonState event) = 0;
+        virtual void bind_controller_event(Enums::ControllerButton button, Enums::ButtonEvent event, std::unique_ptr<AbstractInputCommand> action) = 0;
+        virtual void unbind_controller_event(Enums::ControllerButton button, Enums::ButtonEvent event) = 0;
 
         /**
          * Note: value will be clamped in a [-1,1] interval
          */
-        virtual void set_axis(ControllerAxis axis, float value);
+        virtual void set_axis(Enums::ControllerAxis axis, float value);
 
-        virtual void press_button(ControllerButton button);
-        virtual void release_button(ControllerButton button);
+        /**
+         * State changers
+         */
+
+        virtual void press_button(Enums::ControllerButton button);
+        virtual void release_button(Enums::ControllerButton button);
 
 };

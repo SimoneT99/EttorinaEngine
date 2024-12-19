@@ -6,13 +6,16 @@
 #include "../headers/core/inputSystem/SDL2InputSystem/periferalManagement/AbstractKeyboardManager.hpp"
 #include "../headers/core/inputSystem/SDL2InputSystem/periferalManagement/AbstractControllerManager.hpp"
 
+#include "..\headers\core\inputSystem\SDL2InputSystem\eventHandler\SDL2EventHandlerInterface.hpp"
+
 #include <iostream>
 #include <map>
+#include <thread>
 
 class SDL2InputController : public InputControllerInterface {
 
     private:
-    
+
         /**
          * Managers. (i know it's a bad name...).
          * TODO: who build and manages these? We need dependency injection somehow? Builder maybe?
@@ -21,12 +24,17 @@ class SDL2InputController : public InputControllerInterface {
         std::shared_ptr<AbstractKeyboardManager> keyboard_manager;
         std::map<int, std::shared_ptr<AbstractControllerManager>> controller_managers;
 
+        std::shared_ptr<SDL2EventHandlerInterface> event_handler;
+
         /**
          * Chain of responsability to handle the events
          * TODO: how do we manage this chain? we could add or remove nodes to allow less or more inputs...
          */
 
         std::atomic<bool> running = false;
+        std::thread input_loop_thread;
+        std::chrono::duration<double> target_frame_duration;
+    
 
     protected:
 
@@ -34,7 +42,7 @@ class SDL2InputController : public InputControllerInterface {
 
     public:
 
-        SDL2InputController();
+        SDL2InputController(int updates_per_second);
         ~SDL2InputController();
 
         /**
@@ -70,15 +78,17 @@ class SDL2InputController : public InputControllerInterface {
 
         void bind_controller_event(int controllerId, Enums::ControllerButton button, Enums::ButtonEvent event, std::unique_ptr<AbstractInputCommand> action) override;
         void unbind_controller_event(int controllerId, Enums::ControllerButton button, Enums::ButtonEvent event) override;
-
-        virtual bool is_binded() = 0;
-        virtual void tick() = 0;
+        
+        void tick() override;
 
         /**
-         * Methods used to setup or manage internally the system
+         * Setup methods
          */
 
         void set_keyboard_manager(std::shared_ptr<AbstractKeyboardManager> keyboardManager);
         void set_mouse_manager(std::shared_ptr<AbstractMouseManager> mouseManager);
+        void set_controller_manager(std::shared_ptr<AbstractControllerManager> controllerManager);
+        void set_event_handler(std::shared_ptr<SDL2EventHandlerInterface> event_handler);
+        void run();
 
 };

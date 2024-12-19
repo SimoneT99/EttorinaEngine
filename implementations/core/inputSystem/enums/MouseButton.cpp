@@ -1,5 +1,7 @@
 #include "../headers/core/inputSystem/Enums/MouseButton.hpp"
 
+using namespace Enums;
+
 std::string mouseButtonToString(MouseButton mouseButton){
 
     switch (mouseButton) {

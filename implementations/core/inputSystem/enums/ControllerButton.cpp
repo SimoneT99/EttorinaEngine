@@ -1,5 +1,7 @@
 #include "../headers/core/inputSystem/Enums/ControllerButton.hpp"
 
+using namespace Enums;
+
 std::string ControllerButtonHelper::controllerButtonToString(ControllerButton controllerButton){
     switch(controllerButton){
         case ControllerButton::CONTROLLER_DPAD_UP: return "CONTROLLER_DPAD_UP";

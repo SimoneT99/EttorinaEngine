@@ -3,11 +3,8 @@
 
 namespace Enums{
 
-        enum ButtonState{
-
-        PRESSED_DOWN,
+    enum ButtonState{
         PRESSED,
-        RELEASED,
         UNPRESSED
     };
 
