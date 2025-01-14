@@ -2,6 +2,8 @@
 #include "AbstractInputCommand.hpp"
 #include <memory>
 
+#pragma once
+
 /**
  * @brief: Interface of the input system, each system must implement these methods to be usable by the engine.
  * BAD: Smell of fat interface... ...but it's a whole system...

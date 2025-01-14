@@ -1,13 +1,23 @@
-#include "../headers/core/inputSystem/Enums/Enums.hpp"
-#include "../headers/core/inputSystem/InputSystem.hpp"
+#include "../../headers/core/inputSystem/Enums/Enums.hpp"
+#include "../../headers/core/inputSystem/InputSystem.hpp"
+#include "../../headers/vanilla/inputSystem/SDL2InputSystem/SDL2InputControllerBuilder.hpp"
+
 #include "MessageToTerminalCommand.hpp"
 
 /**
  * Quick tool that can be used to check button presses
  */
 #include <memory>
+/**
+ * Here you can select the input system builder you want to use
+ */
 
-int main(int argc, char* argv[]){   
+std::shared_ptr<AbstractInputControllerBuilder> get_builder(){
+    return std::make_shared<SDL2InputControllerBuilder>();
+}
+
+int main(int argc, char* argv[]){
+
     std::shared_ptr<InputSystem> inputSystem = InputSystem::get_istance();
     inputSystem->setBuilder(get_builder());
     inputSystem->startInputSystem();
@@ -104,11 +114,3 @@ int main(int argc, char* argv[]){
 }
 
 /**********************************************************************************************/
-
-/**
- * Here you can select the input system builder you want to use
- */
-
-std::shared_ptr<AbstractInputControllerBuilder> get_builder(){
-
-}

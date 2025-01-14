@@ -32,6 +32,7 @@ INCLUDE = ./include
 FLAGS = -I${HEADERS} -I${INCLUDE}
 DEBUG_FLAGS = -g -O0
 LIBS = ./lib
+LDFLAGS = `sdl2-config --libs`
 
 #SUBPATHS
 OPTIMIZED_OBJECT = object/OptimizedObject/
@@ -40,6 +41,7 @@ CONCRETE_LOADER = object/loader/concreteLoaders/
 
 all : release_setup
 debug : debug_setup
+input_testing : input_testing_setup
 
 debug_setup : CFLAGS = -g -Og $(FLAGS)
 debug_setup : COUT = $(OUT_DEBUG)
@@ -49,12 +51,26 @@ release_setup : CFLAGS = $(FLAGS)
 release_setup : COUT = $(OUT)
 release_setup : Main
 
+input_testing_setup : CFLAGS = $(FLAGS)
+input_testing_setup : COUT = Input_test.exe
+input_testing_setup : Input_Test
+
+
 clean : 
 	del $(OBJS) main.o
 
 Main : ${OBJS} main.o
 	   @echo "Linking main..."
 	   ${CC} ${CFLAGS} ${OBJS} main.o -L${LIBS}/ -lglew32 -l:libglfw3dll.a -lopengl32 -o ${COUT}
+
+Input_Test : ${OBJS} input_test.o
+	 	   : @echo "Linking input_tester..."
+	  	   : ${CC} ${CFLAGS} input_test.o -L${LIBS}/ $(LDFLAGS) -o ${COUT}
+
+
+
+input_test.o : testing/InputSystem/ManualInputTester.cpp
+	  	     : ${CC} ${CFLAGS} -c testing/InputSystem/ManualInputTester.cpp
 
 main.o : main.cpp
 		${CC} ${CFLAGS} -c main.cpp

@@ -7,6 +7,7 @@ std::string Enums::ButtonStateHelper::buttonStateToString(Enums::ButtonState but
         case ButtonState::PRESSED: return "PRESSED";
         case ButtonState::UNPRESSED: return "UNPRESSED";
     }
+    return "INVALID";
 }
 
 

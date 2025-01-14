@@ -10,6 +10,8 @@
 
 #include <memory>
 
+#pragma once
+
 class AbstractInputControllerBuilder{
     public:
     virtual std::shared_ptr<InputControllerInterface> get_input_controller_interface() = 0;

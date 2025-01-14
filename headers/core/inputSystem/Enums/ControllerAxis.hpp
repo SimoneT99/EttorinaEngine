@@ -1,6 +1,8 @@
 #include <string>
 #include <vector>
 
+#pragma once
+
 namespace Enums{
 
     enum class ControllerAxis {

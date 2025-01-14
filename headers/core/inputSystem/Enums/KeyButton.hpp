@@ -6,6 +6,8 @@
     thanks chatGpt
 */
 
+#pragma once
+
 namespace Enums{
 
 enum class KeyButton {

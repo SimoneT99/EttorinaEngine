@@ -1,9 +1,11 @@
 #include <string>
 #include <vector>
 
+#pragma once
+
 namespace Enums{
 
-    enum ButtonEvent{
+    enum class ButtonEvent{
         PRESSED_DOWN,
         PRESSED,
         RELEASED

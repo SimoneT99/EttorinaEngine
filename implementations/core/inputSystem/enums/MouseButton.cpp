@@ -2,7 +2,7 @@
 
 using namespace Enums;
 
-std::string mouseButtonToString(MouseButton mouseButton){
+std::string MouseButtonHelper::mouseButtonToString(MouseButton mouseButton){
 
     switch (mouseButton) {
         case MouseButton::MOUSE_LEFT: return "MOUSE_LEFT";
@@ -21,7 +21,7 @@ std::string mouseButtonToString(MouseButton mouseButton){
 
 }
 
-std::vector<MouseButton> getMouseButtons() {
+std::vector<MouseButton> MouseButtonHelper::getMouseButtons() {
     return {
         MouseButton::MOUSE_LEFT,
         MouseButton::MOUSE_RIGHT,
