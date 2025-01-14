@@ -24,16 +24,46 @@ debug : debug_setup
 
 debug_setup : CFLAGS = -g -Og $(FLAGS)
 debug_setup : COUT = $(OUT_DEBUG)
+debug_setup : Refresh_libs_debug
 debug_setup : Main
 
 release_setup : CFLAGS = $(FLAGS)
 release_setup : COUT = $(OUT)
+release_setup : Refresh_libs
 release_setup : Main
 
 
 clean : 
-	del $(OBJS) main.o
+	del ManualInputTester.o MessageToTerminalCommand.o InputSystem.o
 
+#change this lines for your system
+Refresh_libs: Build_lib \
+			  Move_lib \
+			  Clean_lib
+
+Refresh_libs_debug: Build_lib_debug \
+			  Move_lib \
+			  Clean_lib
+
+Build_lib:
+	@cd $(ROOT_DIR)/headers/vanilla/inputSystem/SDL2InputSystem/ && \
+	make dynamic
+
+Build_lib_debug:
+	@cd $(ROOT_DIR)/headers/vanilla/inputSystem/SDL2InputSystem/ && \
+	make dynamic_debug
+
+Move_lib:
+	@cd $(ROOT_DIR)/headers/vanilla/inputSystem/SDL2InputSystem/ && \
+	move libSDL2InputSystem.lib $(ROOT_DIR)/lib/libSDL2InputSystem.lib && \
+	move SDL2InputSystem.dll $(ROOT_DIR)/testing/inputSystem/SDL2InputSystem.dll || (echo "Error during moving files" && exit /b 1)
+
+Clean_lib:
+	@cd $(ROOT_DIR)/headers/vanilla/inputSystem/SDL2InputSystem/ && \
+	make clean
+
+
+#include the correct library
 Main : MessageToTerminalCommand.o ManualInputTester.o InputSystem.o
 	   @echo "Linking main..."
 	   ${CC} ${CFLAGS} ManualInputTester.o MessageToTerminalCommand.o InputSystem.o -mconsole -L${LIBS}/ -llibSDL2InputSystem -o ${COUT}
