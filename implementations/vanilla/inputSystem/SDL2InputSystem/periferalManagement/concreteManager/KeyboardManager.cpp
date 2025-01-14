@@ -1,4 +1,6 @@
 #include "..\headers\vanilla\inputSystem\SDL2InputSystem\periferalManagement\concreteManager\KeyboardManager.hpp"
+#include <iostream>
+
 
 bool KeyboardManager::key_pressed_down(Enums::KeyButton button) const{
     return this->keyboard_button_manager->button_pressed_down(button);
@@ -13,6 +15,7 @@ bool KeyboardManager::key_released(Enums::KeyButton button) const{
 }
 
 void KeyboardManager::bind_key_event(Enums::KeyButton button, Enums::ButtonEvent event, std::unique_ptr<AbstractInputCommand> action){
+    std::cout << "Into the manager ass" << std::endl;
     this->keyboard_button_manager->bind_button_event(button, event, std::move(action));
 }
 

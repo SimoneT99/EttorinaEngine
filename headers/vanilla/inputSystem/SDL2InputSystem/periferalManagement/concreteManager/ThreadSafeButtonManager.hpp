@@ -52,6 +52,13 @@ private:
     }
 
 public:
+
+    ThreadSafeButtonManager(){
+        this->button_state = std::map<ButtonType, Enums::ButtonState>();
+        this->button_event_bucket = std::unordered_multimap<ButtonType, Enums::ButtonEvent>();
+        this->buttons_events_bindings = std::map<std::pair<ButtonType, Enums::ButtonEvent>, std::unique_ptr<AbstractInputCommand>>();
+    }
+
     bool button_pressed_down(ButtonType button) const override
     {
         return this->check_event_presence(button, Enums::ButtonEvent::PRESSED_DOWN);
@@ -69,6 +76,7 @@ public:
 
     void bind_button_event(ButtonType button, Enums::ButtonEvent event, std::unique_ptr<AbstractInputCommand> action) override
     {
+        std::cout << "Into the button manager ass" << std::endl;
         this->buttons_events_bindings.insert({std::make_pair(button, event), std::move(action)});
     };
 

@@ -9,6 +9,8 @@
 
 #include "./eventHandler\SDL2EventHandlerInterface.hpp"
 
+#include "./SDL2InputSystemMacro.hpp"
+
 #include <iostream>
 #include <map>
 #include <thread>

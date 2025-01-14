@@ -2,12 +2,18 @@
 
 SDL2InputController::SDL2InputController(int updates_per_second){
 
+    SDL2_PRINT_FOR_DEBUG("Starting input controller...", false)
+
     if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER) != 0) {
         std::cerr << "Error in SDL Input SubSystem initialization: " << SDL_GetError() << std::endl;
     }
 
+    SDL2_PRINT_FOR_DEBUG("No error in SDL2 init...", false)
+
     this->target_frame_duration = std::chrono::duration<double>(1.0 / updates_per_second);
     this->running = new std::atomic<bool>(false); //memory leak?
+
+    SDL2_PRINT_FOR_DEBUG("Input controller constructor done...", false)
 }
 
 SDL2InputController::~SDL2InputController(){
@@ -32,7 +38,7 @@ bool SDL2InputController::key_released(Enums::KeyButton button) const{
     return this->keyboard_manager->key_released(button);
 }
 
-void SDL2InputController::bind_key_event(Enums::KeyButton button, Enums::ButtonEvent event, std::unique_ptr<AbstractInputCommand> action){
+void SDL2InputController::bind_key_event(Enums::KeyButton button, Enums::ButtonEvent event, std::unique_ptr<AbstractInputCommand> action){    
     this->keyboard_manager->bind_key_event(button, event, std::move(action));
 }
 
