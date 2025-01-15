@@ -2,13 +2,7 @@
 
 SDL2InputController::SDL2InputController(int updates_per_second){
 
-    SDL2_PRINT_FOR_DEBUG("Starting input controller...", false)
-
-    if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER) != 0) {
-        std::cerr << "Error in SDL Input SubSystem initialization: " << SDL_GetError() << std::endl;
-    }
-
-    SDL2_PRINT_FOR_DEBUG("No error in SDL2 init...", false)
+    SDL2_PRINT_FOR_DEBUG("Creating SDL2 input controller...", false)
 
     this->target_frame_duration = std::chrono::duration<double>(1.0 / updates_per_second);
     this->running = new std::atomic<bool>(false); //memory leak?
@@ -17,9 +11,13 @@ SDL2InputController::SDL2InputController(int updates_per_second){
 }
 
 SDL2InputController::~SDL2InputController(){
+
+    SDL2_PRINT_FOR_DEBUG("Destroing SDL2 input controller...", false)
+
     this->running = false;
     this->input_loop_thread.join();
-    SDL_Quit();
+
+    SDL2_PRINT_FOR_DEBUG("No error in SDL2 init...", false)
 }
 
 /**
@@ -117,17 +115,49 @@ void SDL2InputController::tick(){
     //TODO manage controller
 }
 
-void SDL2InputController::update_loop(){
+void SDL2InputController::SDL2_event_loop(){
+
+    if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER) != 0) {
+        std::cerr << "Error in SDL Input SubSystem initialization: " << SDL_GetError() << std::endl;
+    }
+
+    this->hiddenWindow = SDL_CreateWindow(
+        "SDLWindow", 
+        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
+        1, 1,
+        SDL_WINDOW_RESIZABLE
+    );
+
+
+    if (!this->hiddenWindow) {
+        std::cerr << "Error creating SDL window: " << SDL_GetError() << std::endl;
+    }
+
+    SDL_EventState(SDL_KEYDOWN, SDL_ENABLE);
+    SDL_EventState(SDL_KEYUP, SDL_ENABLE);
+    SDL_EventState(SDL_MOUSEMOTION, SDL_DISABLE);
+    SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_ENABLE);
+    SDL_EventState(SDL_MOUSEBUTTONUP, SDL_ENABLE);
+
+    SDL2_PRINT_FOR_DEBUG("No error in SDL2 init...", false)
+
 
     SDL_Event event;
+    long cycle = 0;
 
     while(this->running){
+        SDL2_PRINT_FOR_DEBUG("update loop starting..." << cycle, true)
+        cycle++;
 
         auto start_time = std::chrono::steady_clock::now();
 
+        SDL_PumpEvents();
         while(SDL_PollEvent(&event)){
+            SDL2_PRINT_FOR_DEBUG("SDL2 Event Polled...", false)
             this->event_handler->handle(event);
         }
+
+        SDL_Delay(5);
 
         auto end_time = std::chrono::steady_clock::now();
         auto elapsed_time = end_time - start_time;
@@ -136,9 +166,12 @@ void SDL2InputController::update_loop(){
             std::this_thread::sleep_for(target_frame_duration - elapsed_time);
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        //std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
+    free(this->hiddenWindow); //to avoid memory leaks
+
+    SDL_Quit();
 }
 
 
@@ -146,23 +179,27 @@ void SDL2InputController::update_loop(){
 * Setup methods
 */
 
-void SDL2InputController::set_keyboard_manager(std::shared_ptr<AbstractKeyboardManager> keyboardManager){
+void SDL2InputController::set_keyboard_manager(std::shared_ptr<AbstractKeyboardManager> keyboard_manager){
+    SDL2_PRINT_FOR_DEBUG("Setting the keyboard manager of the controller...", false)
     this->keyboard_manager = keyboard_manager;
 }
 
-void SDL2InputController::set_mouse_manager(std::shared_ptr<AbstractMouseManager> mouseManager){
+void SDL2InputController::set_mouse_manager(std::shared_ptr<AbstractMouseManager> mouse_manager){
+    SDL2_PRINT_FOR_DEBUG("Setting the mouse manager of the controller...", false)
     this->mouse_manager = mouse_manager;
 }
 
-void SDL2InputController::set_controller_manager(std::shared_ptr<AbstractControllerManager> controllerManager){
+void SDL2InputController::set_controller_manager(std::shared_ptr<AbstractControllerManager> controller_manager){
     //TODO
 }
 
 void SDL2InputController::set_event_handler(std::shared_ptr<SDL2EventHandlerInterface> event_handler){
+    SDL2_PRINT_FOR_DEBUG("Setting the event chain of the controller...", false)
     this->event_handler = event_handler;
 }
 
 void SDL2InputController::run(){
+    SDL2_PRINT_FOR_DEBUG("Starting the event loop of the controller...", false)
     this->running = true;
-    this->input_loop_thread = std::thread(&update_loop, this);
+    this->input_loop_thread = std::thread(&SDL2_event_loop, this);
 }

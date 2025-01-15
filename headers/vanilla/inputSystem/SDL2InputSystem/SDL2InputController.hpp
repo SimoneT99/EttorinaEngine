@@ -1,6 +1,6 @@
 #include "../headers\core\inputSystem\InputControllerInterface.hpp"
 #define SDL_MAIN_HANDLED
-//#include "../include/SDL2/SDL.h"
+#include "../include/SDL2/SDL.h"
 #include "../headers/core/inputSystem/AbstractInputCommand.hpp"
 
 #include "./periferalManagement/AbstractMouseManager.hpp"
@@ -38,11 +38,13 @@ class SDL2InputController : public InputControllerInterface {
         std::atomic<bool> running;
         std::thread input_loop_thread;
         std::chrono::duration<double> target_frame_duration;
+
+        SDL_Window* hiddenWindow;
     
 
     protected:
 
-        void update_loop();
+        void SDL2_event_loop();
 
     public:
 

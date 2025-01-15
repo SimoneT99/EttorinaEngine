@@ -1,5 +1,6 @@
 #include "../IButtonManager.hpp"
 #include "../headers/core/inputSystem/Enums/Enums.hpp"
+#include "../../SDL2InputSystemMacro.hpp"
 #include <map>
 #include <unordered_map>
 #include <iostream>
@@ -54,9 +55,11 @@ private:
 public:
 
     ThreadSafeButtonManager(){
+        SDL2_PRINT_FOR_DEBUG("Building Thread Safe Button Manager...", false)
         this->button_state = std::map<ButtonType, Enums::ButtonState>();
         this->button_event_bucket = std::unordered_multimap<ButtonType, Enums::ButtonEvent>();
         this->buttons_events_bindings = std::map<std::pair<ButtonType, Enums::ButtonEvent>, std::unique_ptr<AbstractInputCommand>>();
+        SDL2_PRINT_FOR_DEBUG("Thread Safe Button Manager built...", false)
     }
 
     bool button_pressed_down(ButtonType button) const override
@@ -76,17 +79,19 @@ public:
 
     void bind_button_event(ButtonType button, Enums::ButtonEvent event, std::unique_ptr<AbstractInputCommand> action) override
     {
-        std::cout << "Into the button manager ass" << std::endl;
+        SDL2_PRINT_FOR_DEBUG("Binding button event...", true)
         this->buttons_events_bindings.insert({std::make_pair(button, event), std::move(action)});
     };
 
     void unbind_mouse_event(ButtonType button, Enums::ButtonEvent event) override
     {
+        SDL2_PRINT_FOR_DEBUG("Unbinding button event...", true)
         this->buttons_events_bindings.erase({button, event});
     };
 
     void press_button(ButtonType button) override
     {
+        SDL2_PRINT_FOR_DEBUG("Pressing button...", false)
         Enums::ButtonState state = this->get_button_state(button);
         switch (state)
         {
@@ -107,6 +112,7 @@ public:
 
     void release_button(ButtonType button) override
     {
+        SDL2_PRINT_FOR_DEBUG("Releasing button...", false)
         Enums::ButtonState state = this->get_button_state(button);
         switch (state)
         {

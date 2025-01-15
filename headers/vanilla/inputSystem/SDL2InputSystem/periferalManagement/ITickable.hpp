@@ -1,4 +1,5 @@
 #include "../headers/core/inputSystem/Enums/ButtonState.hpp"
+#include "../SDL2InputSystemMacro.hpp"
 #pragma once
 
 /**

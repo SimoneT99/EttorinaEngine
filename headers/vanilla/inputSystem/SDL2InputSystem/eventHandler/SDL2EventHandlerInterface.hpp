@@ -1,6 +1,7 @@
 #define SDL_MAIN_HANDLED
 #include "../include/SDL2/SDL.h"
 #include <memory>
+#include "../SDL2InputSystemMacro.hpp"
 
 #pragma once
 

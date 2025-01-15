@@ -2,6 +2,7 @@
 
 bool SDL2MouseEventHandler::can_handle(SDL_Event event) const
 {
+    SDL2_PRINT_FOR_DEBUG("Checking can_handle mouse handler...", false)
     return event.type == SDL_MOUSEMOTION ||
            event.type == SDL_MOUSEBUTTONDOWN ||
            event.type == SDL_MOUSEBUTTONUP ||

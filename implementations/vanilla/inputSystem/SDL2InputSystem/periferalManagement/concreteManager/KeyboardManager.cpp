@@ -15,11 +15,12 @@ bool KeyboardManager::key_released(Enums::KeyButton button) const{
 }
 
 void KeyboardManager::bind_key_event(Enums::KeyButton button, Enums::ButtonEvent event, std::unique_ptr<AbstractInputCommand> action){
-    std::cout << "Into the manager ass" << std::endl;
+    SDL2_PRINT_FOR_DEBUG("Forwarding bind to button manager...", true)
     this->keyboard_button_manager->bind_button_event(button, event, std::move(action));
 }
 
 void KeyboardManager::unbind_key_event(Enums::KeyButton button, Enums::ButtonEvent event){
+    SDL2_PRINT_FOR_DEBUG("Forwarding unbind to button manager...", true)
     this->keyboard_button_manager->unbind_mouse_event(button, event);
 }
 

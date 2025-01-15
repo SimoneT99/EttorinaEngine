@@ -35,7 +35,7 @@
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",  // La cartella di lavoro, di solito la radice del progetto
             "environment": [],
-            "externalConsole": true,  // Imposta su true se desideri usare una console separata
+            "externalConsole": false,  // Imposta su true se desideri usare una console separata
             "MIMode": "gdb",  // Usa gdb se stai usando g++
             "setupCommands": [
                 {
