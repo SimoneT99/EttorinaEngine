@@ -2,7 +2,7 @@
 
 bool SDL2MouseEventHandler::can_handle(SDL_Event event) const
 {
-    SDL2_PRINT_FOR_DEBUG("Checking can_handle mouse handler...", false)
+    SDL2_PRINT_FOR_DEBUG("Checking can_handle mouse handler...", true)
     return event.type == SDL_MOUSEMOTION ||
            event.type == SDL_MOUSEBUTTONDOWN ||
            event.type == SDL_MOUSEBUTTONUP ||
@@ -20,7 +20,7 @@ void SDL2MouseEventHandler::concrete_handle(SDL_Event event) const
         this->abstractMouseManager->press_button(this->convertSDLtoMouseButton(event.button.button));
         break;
     case SDL_MOUSEBUTTONUP:
-        this->abstractMouseManager->press_button(this->convertSDLtoMouseButton(event.button.button));
+        this->abstractMouseManager->release_button(this->convertSDLtoMouseButton(event.button.button));
         break;
     case SDL_MOUSEWHEEL:
         /**

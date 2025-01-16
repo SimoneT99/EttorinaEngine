@@ -124,7 +124,7 @@ void SDL2InputController::SDL2_event_loop(){
     this->hiddenWindow = SDL_CreateWindow(
         "SDLWindow", 
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
-        1, 1,
+        200, 200,
         SDL_WINDOW_RESIZABLE
     );
 
@@ -157,7 +157,7 @@ void SDL2InputController::SDL2_event_loop(){
             this->event_handler->handle(event);
         }
 
-        SDL_Delay(5);
+        SDL_Delay(10);
 
         auto end_time = std::chrono::steady_clock::now();
         auto elapsed_time = end_time - start_time;
