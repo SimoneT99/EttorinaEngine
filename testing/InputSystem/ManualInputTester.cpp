@@ -37,11 +37,11 @@ int main(int argc, char* argv[]){
          * Pressed down
          */
         
-        inputControllerInterface->bind_key_event(
+        /* inputControllerInterface->bind_key_event(
             *it, 
             Enums::ButtonEvent::PRESSED, 
-            std::make_unique<MessageToTerminalCommand>("KeyButton " + Enums::KeyButtonHelper::keyButtonToString(*it) + " Pressed")
-            );
+            std::make_unique<MessageToTerminalCommand>("KeyButton " + Enums::KeyButtonHelper::keyButtonToString(*it) + " Pressed", false, false)
+            ); */
 
         /**
          * Pressed
@@ -50,19 +50,19 @@ int main(int argc, char* argv[]){
         inputControllerInterface->bind_key_event(
             *it, 
             Enums::ButtonEvent::PRESSED_DOWN, 
-            std::make_unique<MessageToTerminalCommand>("KeyButton " + Enums::KeyButtonHelper::keyButtonToString(*it) + " Pressed down")
+            std::make_unique<MessageToTerminalCommand>(/* "KeyButton "  + */Enums::KeyButtonHelper::keyButtonToString(*it) /* + " Pressed down" */, false, false)
             );
 
         /**
          * Released
          */
         
-        inputControllerInterface->bind_key_event(
+/*         inputControllerInterface->bind_key_event(
             *it, 
             Enums::ButtonEvent::RELEASED, 
-            std::make_unique<MessageToTerminalCommand>("KeyButton " + Enums::KeyButtonHelper::keyButtonToString(*it) + " Released")
+            std::make_unique<MessageToTerminalCommand>("KeyButton " + Enums::KeyButtonHelper::keyButtonToString(*it) + " Released", false, false)
             );
-
+ */
     }
 
     /**
@@ -78,7 +78,7 @@ int main(int argc, char* argv[]){
         inputControllerInterface->bind_mouse_event(
             *it, 
             Enums::ButtonEvent::PRESSED, 
-            std::make_unique<MessageToTerminalCommand>("MouseButton " + Enums::MouseButtonHelper::mouseButtonToString(*it) + " Pressed")
+            std::make_unique<MessageToTerminalCommand>("MouseButton " + Enums::MouseButtonHelper::mouseButtonToString(*it) + " Pressed", false, false)
             );
 
         /**
@@ -88,7 +88,7 @@ int main(int argc, char* argv[]){
         inputControllerInterface->bind_mouse_event(
             *it, 
             Enums::ButtonEvent::PRESSED_DOWN, 
-            std::make_unique<MessageToTerminalCommand>("MouseButton " + Enums::MouseButtonHelper::mouseButtonToString(*it) + " Pressed down")
+            std::make_unique<MessageToTerminalCommand>("MouseButton " + Enums::MouseButtonHelper::mouseButtonToString(*it) + " Pressed down", false, false)
             );
 
         /**
@@ -98,7 +98,7 @@ int main(int argc, char* argv[]){
         inputControllerInterface->bind_mouse_event(
             *it, 
             Enums::ButtonEvent::RELEASED, 
-            std::make_unique<MessageToTerminalCommand>("MouseButton " + Enums::MouseButtonHelper::mouseButtonToString(*it) + " Released")
+            std::make_unique<MessageToTerminalCommand>("MouseButton " + Enums::MouseButtonHelper::mouseButtonToString(*it) + " Released", false, false)
             );
 
     }

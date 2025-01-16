@@ -133,11 +133,10 @@ void SDL2InputController::SDL2_event_loop(){
         std::cerr << "Error creating SDL window: " << SDL_GetError() << std::endl;
     }
 
-    SDL_EventState(SDL_KEYDOWN, SDL_ENABLE);
-    SDL_EventState(SDL_KEYUP, SDL_ENABLE);
-    SDL_EventState(SDL_MOUSEMOTION, SDL_DISABLE);
-    SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_ENABLE);
-    SDL_EventState(SDL_MOUSEBUTTONUP, SDL_ENABLE);
+    /**
+     * Disable text event, might need reactivated later
+     */
+    SDL_StopTextInput();
 
     SDL2_PRINT_FOR_DEBUG("No error in SDL2 init...", false)
 
@@ -153,7 +152,7 @@ void SDL2InputController::SDL2_event_loop(){
 
         SDL_PumpEvents();
         while(SDL_PollEvent(&event)){
-            SDL2_PRINT_FOR_DEBUG("SDL2 Event Polled...", false)
+            SDL2_PRINT_FOR_DEBUG("SDL2 Event Polled...", true)
             this->event_handler->handle(event);
         }
 

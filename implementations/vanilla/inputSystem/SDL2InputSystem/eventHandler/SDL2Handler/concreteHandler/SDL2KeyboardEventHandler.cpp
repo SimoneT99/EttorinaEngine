@@ -7,7 +7,7 @@ bool SDL2KeyboardEventHandler::can_handle(SDL_Event event) const{
 
 void SDL2KeyboardEventHandler::concrete_handle(SDL_Event event) const{
 
-    SDL2_PRINT_FOR_DEBUG("Handling a keybaord event button:" << event.key.keysym.sym << "...", false)
+    SDL2_PRINT_FOR_DEBUG("Handling a keybaord event button:" << event.key.keysym.sym << "...", true)
 
     switch (event.type) {
         case SDL_KEYDOWN :

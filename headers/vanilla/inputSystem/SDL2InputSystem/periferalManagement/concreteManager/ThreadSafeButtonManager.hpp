@@ -89,9 +89,9 @@ public:
         this->buttons_events_bindings.erase({button, event});
     };
 
-    void press_button(ButtonType button) override
+void press_button(ButtonType button) override
     {
-        SDL2_PRINT_FOR_DEBUG("Pressing button...", false)
+        SDL2_PRINT_FOR_DEBUG("Pressing button...", true)
         Enums::ButtonState state = this->get_button_state(button);
         switch (state)
         {
@@ -101,7 +101,7 @@ public:
             break;
         case Enums::ButtonState::UNPRESSED:
             this->button_event_bucket.emplace(button, Enums::ButtonEvent::PRESSED_DOWN);
-            this->button_state.emplace(button, Enums::ButtonState::PRESSED);
+            this->button_state[button] = Enums::ButtonState::PRESSED;
             this->fire_event(button, Enums::ButtonEvent::PRESSED_DOWN);
             break;
         default:
@@ -112,13 +112,13 @@ public:
 
     void release_button(ButtonType button) override
     {
-        SDL2_PRINT_FOR_DEBUG("Releasing button...", false)
+        SDL2_PRINT_FOR_DEBUG("Releasing button...", true)
         Enums::ButtonState state = this->get_button_state(button);
         switch (state)
         {
         case Enums::ButtonState::PRESSED:
             this->button_event_bucket.emplace(button, Enums::ButtonEvent::RELEASED);
-            this->button_state.emplace(button, Enums::ButtonState::UNPRESSED);
+            this->button_state[button] = Enums::ButtonState::UNPRESSED;
             this->fire_event(button, Enums::ButtonEvent::RELEASED);
             break;
         case Enums::ButtonState::UNPRESSED:
